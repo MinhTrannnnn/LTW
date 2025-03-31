@@ -1,0 +1,39 @@
+.sidebar
+  .sidebar-menu
+
+    .sidebar-category
+      h5 MAIN NAVIGATION
+      ul
+        li.sidebar-item
+          a(href="#dashboard")
+            i.fas.fa-home
+            span Dashboard
+        //- li.sidebar-item.has-submenu
+        //-   a(href="javascript:void(0)")
+        //-     i.fas.fa-chart-line
+        //-     span Analytics
+        //-     i.fas.fa-chevron-down.submenu-arrow
+        //-   ul.submenu
+        //-     li: a(href="#traffic") Traffic Analysis
+        //-     li: a(href="#conversion") Conversion Rates
+        //-     li: a(href="#revenue") Revenue Reports
+    
+    
+    .sidebar-category
+        h5 MANAGEMENT
+        ul
+          li.sidebar-item.has-submenu
+            a(href='javascript:void(0)')
+              i.fas.fa-file-alt
+              span Articles
+              i.fas.fa-chevron-down.submenu-arrow
+            ul.submenu
+              li
+                a(href=`${prefixAdmin}/articles`) Manage articles
+              li
+                a(href=`${prefixAdmin}/articles/create`) Add new articles
+          
+          li.sidebar-item
+            a(href='#users')
+              i.fas.fa-users
+              span Users

@@ -1,0 +1,316 @@
+extends ../../layouts/default.pug
+
+block main
+  - var linkButtonStyle = "color: var(--natgeo-yellow); letter-spacing: 1px; font-size: 0.85rem;"
+  - var breakingNewsStyle = "background-color: var(--natgeo-yellow); color: #000; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;"
+  - var popularHeaderStyle = "border-bottom: 3px solid var(--natgeo-yellow); padding-bottom: 0.75rem;"
+  - var categoryTitleStyle = "font-size: 2.5rem;"
+  - var fontSizeLargeStyle = "font-size: 1.5rem;"
+  - var checkIconStyle = "color: var(--natgeo-yellow);"
+  - var cardBgStyle = "background-color: var(--natgeo-light-gray);"
+  
+  // Hero Section with Main Featured Story
+  .hero-container
+    if featuredNews && featuredNews.length > 0
+      img.hero-image(src="/client/images/mountain.jpg")
+      .hero-content
+        span.d-inline-block.px-3.py-1.mb-3(style=breakingNewsStyle) Breaking News
+        h1.hero-title #{featuredNews[0].title}
+        p.hero-description #{featuredNews[0].description}
+        .hero-meta.d-flex.align-items-center
+          .mr-4
+            i.far.fa-clock.mr-2
+            | #{featuredNews[0].publishedAt}
+          a.btn.btn-natgeo.mt-3(href=`/news/${featuredNews[0].slug}`) Read Full Story
+    else
+      img.hero-image(src="/client/images/mountain.jpg")
+      .hero-content
+        span.d-inline-block.px-3.py-1.mb-3(style=breakingNewsStyle) Breaking News
+        h1.hero-title Ukraine-Russia War: Latest Updates on the Conflict
+        p.hero-description New diplomatic efforts aim to negotiate ceasefire as conflict enters critical phase in Eastern Ukraine. International observers express cautious optimism as peace talks continue in neutral territory.
+        .hero-meta.d-flex.align-items-center
+          .mr-4
+            i.far.fa-clock.mr-2
+            | 2 hours ago
+          a.btn.btn-natgeo.mt-3(href="#") Read Full Story
+  
+  // Trending Stories Section
+  section.section-padding
+    .container
+      .row
+        .col-lg-8
+          .category-header
+            h2.category-title Today's Picks
+          
+          .row
+            if trendingNews && trendingNews.length > 0
+              each item in trendingNews
+                .col-md-6.animate-fade-in
+                  .featured-article
+                    .position-relative.overflow-hidden
+                      img.featured-image.w-100(src="/client/images/mountain.jpg")
+                      span.featured-category #{item.category || "Trending"}
+                    .p-4
+                      h3.article-title
+                        a(href=`/news/${item.slug}`) #{item.title}
+                      .article-meta
+                        i.far.fa-clock.mr-2
+                        | #{item.publishedAt}
+                      p.article-excerpt #{item.description.substring(0, 100)}...
+                      a.btn-link.text-uppercase.font-weight-bold(href=`/news/${item.slug}`, style=linkButtonStyle) 
+                        | Continue Reading 
+                        i.fas.fa-arrow-right.ml-2
+            else
+              - var articleTitles = []
+              - articleTitles.push('Global Markets React to New Economic Policies')
+              - articleTitles.push('Scientists Discover Breakthrough in Cancer Research')
+              - articleTitles.push('New Climate Agreement Signed by World Leaders')
+              - articleTitles.push('Archaeological Discovery Reveals Ancient Civilization Secrets')
+              - var articleCategories = ['Economy', 'Science', 'Environment', 'History']
+              - var articleTimes = [5, 3, 6, 8]
+              - var articleExcerpts = []
+              - articleExcerpts.push("Markets show positive response to central bank announcements on interest rates and inflation control measures...")
+              - articleExcerpts.push("Researchers develop innovative approach that could transform cancer treatment and improve survival rates...")
+              - articleExcerpts.push("Landmark deal sets ambitious targets for reducing emissions and accelerating transition to renewable energy...")
+              - articleExcerpts.push("Newly unearthed artifacts provide evidence of advanced technological knowledge thousands of years earlier than previously thought...")
+              each title, index in articleTitles
+                .col-md-6.animate-fade-in
+                  .featured-article
+                    .position-relative.overflow-hidden
+                      img.featured-image.w-100(src=`/client/images/category-${index+1}.jpg`)
+                      span.featured-category #{articleCategories[index]}
+                    .p-4
+                      h3.article-title
+                        a(href="#") #{title}
+                      .article-meta
+                        i.far.fa-clock.mr-2
+                        | #{articleTimes[index]} hours ago
+                      p.article-excerpt #{articleExcerpts[index]}
+                      a.btn-link.text-uppercase.font-weight-bold(href="#", style=linkButtonStyle) 
+                        | Continue Reading 
+                        i.fas.fa-arrow-right.ml-2
+        
+        .col-lg-4
+          .card.border-0.mb-4(style=cardBgStyle)
+            .card-body.p-4
+              h4.font-weight-bold.mb-4(style=popularHeaderStyle) 
+                i.fas.fa-fire.mr-2
+                | Most Popular
+              
+              ul.list-unstyled.mb-0
+                - var popularTitles = []
+                - popularTitles.push('Wildlife Photographer of the Year Winners Announced')
+                - popularTitles.push('Deep Sea Exploration Reveals New Species')
+                - popularTitles.push('Sustainable Tourism Initiatives Gaining Momentum')
+                - popularTitles.push('Space Telescope Captures Stunning Galaxy Images')
+                - popularTitles.push('Climate Change Impacts on Coastal Communities')
+                - var popularTimes = [3, 6, 12, 18, 24]
+                each title, index in popularTitles
+                  - var borderStyle = index < 4 ? "border-bottom: 1px solid rgba(0,0,0,0.1);" : ""
+                  li.mb-3.pb-3(style=borderStyle)
+                    .d-flex.align-items-center
+                      .font-weight-bold.mr-3.text-muted(style=fontSizeLargeStyle) 0#{index+1}
+                      div
+                        h6.mb-1
+                          a.text-dark(href="#") #{title}
+                        small.text-muted
+                          i.far.fa-clock.mr-1
+                          | #{popularTimes[index]} hours ago
+  
+  // Main Categories Sections
+  section.section-padding.bg-light-gray
+    .container
+      .row.mb-5
+        .col-12.text-center.mb-5
+          h2.mb-4(style=categoryTitleStyle) Explore By Category
+          p.text-muted.w-75.mx-auto Discover in-depth reporting, exclusive features, and powerful stories from around the world
+      
+      .row.mb-5
+        .col-lg-6.mb-4
+          .category-header
+            .category-icon
+              i.fas.fa-landmark
+            h3.category-title Politics
+          
+          .horizontal-article
+            img.horizontal-image(src="/client/images/mountain.jpg" alt="Politics News")
+            .horizontal-content
+              h4.mb-3
+                a.text-dark(href="#") New Legislation Aims to Reform Healthcare System
+              p.text-muted.mb-3 The proposed bill includes changes to insurance regulations and medical care accessibility.
+              .d-flex.justify-content-between.align-items-center
+                small.text-muted
+                  i.far.fa-clock.mr-1
+                  | 5 hours ago
+                a.text-uppercase.font-weight-bold(href="#", style=linkButtonStyle) Read More
+          
+          .horizontal-article
+            img.horizontal-image(src="/client/images/mountain.jpg" alt="Politics News")
+            .horizontal-content
+              h4.mb-3
+                a.text-dark(href="#") International Summit Addresses Global Security Concerns
+              p.text-muted.mb-3 Leaders from 20 countries gather to discuss regional stability and collaborative defense strategies.
+              .d-flex.justify-content-between.align-items-center
+                small.text-muted
+                  i.far.fa-clock.mr-1
+                  | 7 hours ago
+                a.text-uppercase.font-weight-bold(href="#", style=linkButtonStyle) Read More
+          
+          .text-right.mt-3
+            a.text-uppercase.font-weight-bold(href="/politics", style=linkButtonStyle)
+              | More Politics Articles 
+              i.fas.fa-long-arrow-alt-right.ml-2
+        
+        .col-lg-6.mb-4
+          .category-header
+            .category-icon
+              i.fas.fa-chart-line
+            h3.category-title Business
+          
+          .horizontal-article
+            img.horizontal-image(src="/client/images/mountain.jpg" alt="Business News")
+            .horizontal-content
+              h4.mb-3
+                a.text-dark(href="#") Tech Giant Announces Major Investment in AI Research
+              p.text-muted.mb-3 The company pledges $2 billion over five years to accelerate AI development and applications.
+              .d-flex.justify-content-between.align-items-center
+                small.text-muted
+                  i.far.fa-clock.mr-1
+                  | 4 hours ago
+                a.text-uppercase.font-weight-bold(href="#", style=linkButtonStyle) Read More
+          
+          .horizontal-article
+            img.horizontal-image(src="/client/images/mountain.jpg" alt="Business News")
+            .horizontal-content
+              h4.mb-3
+                a.text-dark(href="#") Sustainable Practices Reshaping Corporate Strategies
+              p.text-muted.mb-3 Leading corporations commit to environmental goals as consumers increasingly demand eco-friendly products.
+              .d-flex.justify-content-between.align-items-center
+                small.text-muted
+                  i.far.fa-clock.mr-1
+                  | 9 hours ago
+                a.text-uppercase.font-weight-bold(href="#", style=linkButtonStyle) Read More
+          
+          .text-right.mt-3
+            a.text-uppercase.font-weight-bold(href="/business", style=linkButtonStyle)
+              | More Business Articles 
+              i.fas.fa-long-arrow-alt-right.ml-2
+      
+      .row
+        .col-lg-6.mb-4
+          .category-header
+            .category-icon
+              i.fas.fa-microchip
+            h3.category-title Technology
+          
+          .horizontal-article
+            img.horizontal-image(src="/client/images/mountain.jpg" alt="Technology News")
+            .horizontal-content
+              h4.mb-3
+                a.text-dark(href="#") New Smartphone Features Breakthrough Battery Technology
+              p.text-muted.mb-3 Engineers claim the new design can extend battery life by up to 50% compared to current models.
+              .d-flex.justify-content-between.align-items-center
+                small.text-muted
+                  i.far.fa-clock.mr-1
+                  | 3 hours ago
+                a.text-uppercase.font-weight-bold(href="#", style=linkButtonStyle) Read More
+          
+          .horizontal-article
+            img.horizontal-image(src="/client/images/mountain.jpg" alt="Technology News")
+            .horizontal-content
+              h4.mb-3
+                a.text-dark(href="#") Quantum Computing Breakthrough Solves Complex Problems
+              p.text-muted.mb-3 Scientists achieve major milestone in quantum processing that could revolutionize data analysis.
+              .d-flex.justify-content-between.align-items-center
+                small.text-muted
+                  i.far.fa-clock.mr-1
+                  | 10 hours ago
+                a.text-uppercase.font-weight-bold(href="#", style=linkButtonStyle) Read More
+          
+          .text-right.mt-3
+            a.text-uppercase.font-weight-bold(href="/technology", style=linkButtonStyle)
+              | More Technology Articles 
+              i.fas.fa-long-arrow-alt-right.ml-2
+        
+        .col-lg-6.mb-4
+          .category-header
+            .category-icon
+              i.fas.fa-futbol
+            h3.category-title Sports
+          
+          .horizontal-article
+            img.horizontal-image(src="/client/images/mountain.jpg" alt="Sports News")
+            .horizontal-content
+              h4.mb-3
+                a.text-dark(href="#") National Team Advances to Championship Finals
+              p.text-muted.mb-3 A dramatic last-minute goal secured the team's place in next month's championship match.
+              .d-flex.justify-content-between.align-items-center
+                small.text-muted
+                  i.far.fa-clock.mr-1
+                  | 2 hours ago
+                a.text-uppercase.font-weight-bold(href="#", style=linkButtonStyle) Read More
+          
+          .horizontal-article
+            img.horizontal-image(src="/client/images/mountain.jpg" alt="Sports News")
+            .horizontal-content
+              h4.mb-3
+                a.text-dark(href="#") Athlete Breaks World Record in Marathon Competition
+              p.text-muted.mb-3 New training techniques and persistence lead to historical performance at international event.
+              .d-flex.justify-content-between.align-items-center
+                small.text-muted
+                  i.far.fa-clock.mr-1
+                  | 8 hours ago
+                a.text-uppercase.font-weight-bold(href="#", style=linkButtonStyle) Read More
+          
+          .text-right.mt-3
+            a.text-uppercase.font-weight-bold(href="/sports", style=linkButtonStyle)
+              | More Sports Articles 
+              i.fas.fa-long-arrow-alt-right.ml-2
+  
+  // Full-width Featured Section
+  - var natureBackgroundStyle = "background: url('/client/images/mountain.jpg') no-repeat center center; background-size: cover; position: relative;"
+  section.py-5.my-5(style=natureBackgroundStyle)
+    - var containerStyle = "position: relative; z-index: 1;"
+    .container(style=containerStyle)
+      - var rowStyle = "min-height: 400px;"
+      .row(style=rowStyle)
+        .col-lg-6.text-white.d-flex.flex-column.justify-content-center
+          h2.display-4.font-weight-bold.mb-4 Special Coverage: Our Natural World
+          p.lead.mb-4 Explore our in-depth reporting on environmental conservation, wildlife protection, and the critical challenges facing our planet today.
+          a.btn.btn-natgeo(href="#") Explore the Series
+    
+    - var overlayStyle = "position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to right, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0) 100%);"
+    .overlay(style=overlayStyle)
+  
+  // Newsletter Subscription
+  section.newsletter-section
+    .container
+      .row.align-items-center
+        .col-lg-6.mb-5.mb-lg-0
+          h2.newsletter-title Stay Informed
+          p.newsletter-description Get the latest news and exclusive stories delivered directly to your inbox. Subscribe now to stay ahead of the curve with our premium content.
+          ul.list-unstyled.mt-4
+            li.mb-3
+              i.fas.fa-check.mr-2(style=checkIconStyle)
+              | Breaking news alerts and updates
+            li.mb-3
+              i.fas.fa-check.mr-2(style=checkIconStyle)
+              | Exclusive stories and special reports
+            li.mb-3
+              i.fas.fa-check.mr-2(style=checkIconStyle)
+              | In-depth analysis from our expert journalists
+        
+        .col-lg-6
+          .newsletter-form
+            h4.mb-4.font-weight-bold Newsletter Subscription
+            form(action="/subscribe" method="POST")
+              .form-group
+                label.text-white Email Address
+                - var inputStyle = "border: 1px solid rgba(255,255,255,0.3);"
+                input.form-control.form-control-lg.bg-transparent.text-white(type="email" placeholder="Your email address" required style=inputStyle)
+              .custom-control.custom-checkbox.mb-4
+                input.custom-control-input#newsletter-check(type="checkbox")
+                label.custom-control-label.text-white(for="newsletter-check") I agree to receive news and updates
+              button.btn.btn-natgeo.btn-block(type="submit") 
+                i.fas.fa-paper-plane.mr-2
+                | Subscribe Now

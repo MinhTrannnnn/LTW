@@ -1,0 +1,26 @@
+mixin filter(filter)
+  .filter-wrapper
+    if(filter)
+      each item in filter
+        if item.status
+          a(
+            href=`?status=${item.status}`
+            class=`filter-btn ${item.class === 'active' ? 'active' : ''}`
+          )
+            case item.status
+              when 'active'
+                i.fas.fa-check-circle.me-2
+              when 'inactive'
+                i.fas.fa-times-circle.me-2
+              when 'draft'
+                i.fas.fa-edit.me-2
+              default
+                i.fas.fa-circle.me-2
+            | #{item.name}
+        else
+          a(
+            href=`/admin/articles`
+            class=`filter-btn ${item.class === 'active' ? 'active' : ''}`
+          )
+            i.fas.fa-list-ul.me-2
+            | All

@@ -1,0 +1,53 @@
+extends ../../layouts/default.pug
+
+block main
+  section.article-list.py-5
+    .container
+      .row.mb-4
+        .col-12
+          h1.section-title.text-center All Articles
+          .heading-divider.mx-auto
+
+      if articles && articles.length > 0
+        .row
+          each article in articles
+            .col-md-4.mb-4
+              .card.article-card.h-100
+                if article.thumbnail
+                  img.card-img-top(src=article.thumbnail, alt=article.title)
+                else
+                  img.card-img-top(src="/client/images/default-thumbnail.jpg", alt=article.title)
+                .card-body
+                  if article.category_id
+                    span.category-badge #{article.category_id}
+                  h3.card-title
+                    a(href=`/news/${article.slug}`) #{article.title}
+                  p.card-text #{article.description ? article.description.substring(0, 100) + '...' : ''}
+                .card-footer.bg-white.border-0
+                  .d-flex.justify-content-between.align-items-center
+                    small.text-muted
+                      i.far.fa-clock.mr-1
+                      | #{new Date(article.createdAt).toLocaleDateString()}
+                    a.btn.btn-sm.btn-outline-primary(href=`/news/${article.slug}`) Read More
+        
+        .row.mt-4
+          .col-12.text-center
+            nav(aria-label="Page navigation")
+              ul.pagination.justify-content-center
+                li.page-item.disabled
+                  a.page-link(href="#", tabindex="-1", aria-disabled="true") Previous
+                li.page-item.active
+                  a.page-link(href="#") 1
+                li.page-item
+                  a.page-link(href="#") 2
+                li.page-item
+                  a.page-link(href="#") 3
+                li.page-item
+                  a.page-link(href="#") Next
+      else
+        .row
+          .col-12.text-center
+            .alert.alert-info.py-5
+              i.fas.fa-info-circle.fa-2x.mb-3.d-block
+              h4 No Articles Found
+              p There are currently no articles to display.

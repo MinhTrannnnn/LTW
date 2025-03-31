@@ -1,0 +1,128 @@
+extends ../../layouts/default
+include ../../mixins/filter
+include ../../mixins/search
+include ../../mixins/pagination
+include ../../mixins/sort
+block main
+  .container-fluid
+    .d-flex.justify-content-between.align-items-center.mb-4
+      h1.fs-3 Manage articles
+      a.btn.btn-success.shadow-sm.add-button(href=`${prefixAdmin}/articles/create`) + Add new
+
+    .card.mb-4.shadow-sm
+      .card-header.bg-white.py-3
+        .row.align-items-center
+          .col-lg-4.mb-2.mb-lg-0
+            +search(keyword)
+          .col-lg-4.mb-2.mb-lg-0
+            .sort-container.d-flex.align-items-center
+              span.filter-label
+                +sort()
+          .col-lg-4.mb-2.mb-lg-0
+            .filter-container.d-flex.align-items-center.justify-content-lg-end
+              span.filter-label.me-3 Status: 
+              +filter(filter)
+        form(
+            action=`${prefixAdmin}/articles/change-multi?_method=PATCH`
+            method="POST"
+            form-change-multi
+        )
+            .d-flex.align-items-start.mt-3.justify-content-end
+                input(
+                    type="text"
+                    name="ids"
+                    value=""
+                    class="form-control d-none"
+                )
+                input(
+                    type="hidden"
+                    name="type"
+                    value=""
+                    id="action-type"
+                )
+                button(
+                    type="button" 
+                    class="btn btn-outline-danger me-2 shadow-sm" 
+                    id="delete-all-btn"
+                )
+                    i.fas.fa-trash-alt.me-1
+                    | Delete All
+                button(
+                    type="button" 
+                    class="btn btn-outline-primary shadow-sm" 
+                    id="change-all-btn"
+                )
+                    i.fas.fa-save.me-1
+                    | Update 
+                
+      .card-body.p-0
+        .table-responsive
+          table.table.table-hover.align-middle.mb-0(
+            checkbox-multi
+          )
+            thead.bg-light
+              tr.align-middle
+                th.ps-3.text-center
+                  .form-check.d-inline-block
+                    input.form-check-input(type="checkbox" id="checkall" name="checkall")
+                    label.form-check-label.visually-hidden(for="checkall") 
+                th.text-center.border-start # 
+                th.border-start Title
+                th.text-center.border-start Image
+                th.border-start Category
+                th.text-center.border-start Status
+                th.text-center.border-start Position
+                th.text-center.border-start.pe-3 Created date
+            tbody
+              each article, index in articles
+                tr
+                  td.ps-3.text-center
+                    .form-check.d-inline-block
+                      input.form-check-input(type="checkbox" id=`article-${article._id}` name="id" value=article.id)
+                      label.form-check-label.visually-hidden(for=`article-${article._id}`)
+                  td.text-center.border-start #{(pagination.currentPage - 1) * pagination.limitItems + index + 1}
+                  td.border-start
+                    div.fw-medium.mb-1 #{article.title}
+                    div.article-actions
+                      a(href=`${prefixAdmin}/articles/detail/${article.id}` class="text-secondary me-3") Detail
+                      a(href=`${prefixAdmin}/articles/edit/${article.id}` class="text-warning me-3") Edit
+                      a.text-danger(href="javascript:;" data-id=article.id button-delete) Delete
+                  td.text-center.border-start
+                    if article.thumbnail
+                      img(
+                        src=article.thumbnail
+                        alt=article.title
+                        width="110px"
+                        height="auto"
+                        class="img-thumbnail shadow-sm"
+                      )
+                    else
+                      span.text-muted.small No image
+                  td.border-start #{article.category}
+                  td.text-center.border-start
+                    if article.status === "active"
+                      span.badge.bg-success.rounded-pill.shadow-sm Publish
+                    else
+                      span.badge.bg-danger.rounded-pill.shadow-sm Draft
+                  td.text-center.border-start
+                    input(
+                        type="number",
+                        value=article.position,
+                        style="width:50px",
+                        min="1",
+                        name="position"
+                        class="form-control form-control-sm mx-auto shadow-sm"
+                    )
+                  td.text-center.border-start.pe-3 
+                    span.text-secondary.small #{moment(article.createdAt).format("DD/MM/YYYY HH:mm")}
+
+  +pagination(pagination)
+
+  script(src="/admin/js/article.js") 
+
+
+  
+  
+
+  
+  

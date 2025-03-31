@@ -1,0 +1,17 @@
+mixin sort()
+    div(sort).d-flex.align-items-center
+        select(
+            class="form-control me-2"
+            name="sort"
+            sort-select
+        )
+            option(value="position-desc") Position decreasing
+            option(value="position-asc") Position increasing
+            option(value="title-asc") Title A - Z
+            option(value="title-desc") Title Z - A
+            option(value="createdAt-desc") Created date decreasing
+            option(value="createdAt-asc") Created date increasing
+        button(
+            class="btn btn-danger"
+            sort-clear
+        ) Clear

@@ -1,0 +1,97 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="utf-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no")
+    link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css", crossorigin="anonymous", referrerpolicy="no-referrer")
+    link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css", integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N", crossorigin="anonymous")
+    link(rel="stylesheet", href="/admin/css/style.css")
+    title #{pageTitle}
+  body
+    include ../partials/header.pug   
+    .main-container
+      include ../partials/sider.pug
+      .main-content
+        block main
+       
+
+    script(src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js", crossorigin="anonymous")
+    script(src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js", crossorigin="anonymous")
+   
+    script.
+      // Sidebar toggle functionality
+      document.addEventListener('DOMContentLoaded', function() {
+        const sidebarToggle = document.getElementById('sidebarToggle');
+        const sidebar = document.querySelector('.sidebar');
+        const mainContent = document.querySelector('.main-content');
+        const dropdownItems = document.querySelectorAll('.sidebar-item.has-submenu');
+        
+        // Check if the screen is small on load
+        function checkScreen() {
+          if (window.innerWidth < 992) {
+            sidebar.classList.add('collapsed');
+            mainContent.classList.add('expanded');
+          }
+        }
+        
+        // Run on initial load
+        checkScreen();
+        
+        // Toggle sidebar
+        sidebarToggle.addEventListener('click', function() {
+          sidebar.classList.toggle('collapsed');
+          mainContent.classList.toggle('expanded');
+          // For mobile
+          if (window.innerWidth < 992) {
+            sidebar.classList.toggle('mobile-visible');
+          }
+        });
+        
+        // Submenu dropdown functionality
+        dropdownItems.forEach(item => {
+          const submenuToggleHandler = function(e) {
+            // Prevent the event from bubbling to parent elements
+            e.stopPropagation();
+            // Only toggle if the click is on the main link or arrow, not submenu items
+            if (e.target.closest('.submenu')) {
+              return;
+            }
+            // Check if this dropdown is already open
+            const isOpen = item.classList.contains('open');
+            // First close all dropdowns
+            dropdownItems.forEach(otherItem => {
+              otherItem.classList.remove('open');
+            });
+            // If the clicked dropdown wasn't open, open it now
+            if (!isOpen) {
+              item.classList.add('open');
+              // Scroll to fully show the opened submenu if needed
+              if (item.getBoundingClientRect().bottom + 150 > window.innerHeight) {
+                setTimeout(() => {
+                  item.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 100);
+              }
+            }
+          };
+          
+          // Add click event to the dropdown item
+          const dropdownLink = item.querySelector('a');
+          if (dropdownLink) {
+            dropdownLink.addEventListener('click', submenuToggleHandler);
+          }
+        });
+        
+        // Initially open the active dropdown if any
+        const activeSubmenuParent = document.querySelector('.sidebar-item.has-submenu .submenu .active');
+        if (activeSubmenuParent) {
+          const parentDropdown = activeSubmenuParent.closest('.sidebar-item.has-submenu');
+          if (parentDropdown) {
+            parentDropdown.classList.add('open');
+          }
+        }
+        
+        // Handle resize
+        window.addEventListener('resize', checkScreen);
+      });
+
+    

@@ -1,0 +1,40 @@
+header.navbar.navbar-expand-lg.py-3.header-dark
+  .container-fluid.px-0
+    .row.w-100.mx-0
+      .col-auto(style="padding-left: 20px;")
+        a.navbar-brand(href="/")
+          span.brand-highlight EARTH
+          span.brand-text ODYSSEY
+      
+      .col.px-0
+        button.navbar-toggler.float-right(type="button" data-toggle="collapse" data-target="#navbarSupportedContent")
+          span.navbar-toggler-icon
+        
+        #navbarSupportedContent.collapse.navbar-collapse
+          ul.navbar-nav.ml-auto.mr-4
+            li.nav-item.mx-1
+              a.nav-link.px-3.nav-link-custom(href="/") Home
+            li.nav-item.mx-1
+              a.nav-link.px-3.nav-link-custom(href="/politics") Politics
+            li.nav-item.mx-1
+              a.nav-link.px-3.nav-link-custom(href="/business") Business
+            li.nav-item.mx-1
+              a.nav-link.px-3.nav-link-custom(href="/technology") Technology
+            li.nav-item.mx-1
+              a.nav-link.px-3.nav-link-custom(href="/sports") Sports
+            li.nav-item.mx-1
+              a.nav-link.px-3.nav-link-custom(href="/entertainment") Entertainment
+            li.nav-item.dropdown.mx-1
+              a.nav-link.dropdown-toggle.px-3.nav-link-custom(href="#" role="button" data-toggle="dropdown") More
+              .dropdown-menu.dropdown-menu-dark
+                a.dropdown-item.dropdown-item-dark(href="/science") Science
+                a.dropdown-item.dropdown-item-dark(href="/health") Health
+                .dropdown-divider.dropdown-divider-dark
+                a.dropdown-item.dropdown-item-dark(href="/contact") Contact Us
+          
+          form.form-inline.my-2.my-lg-0.search-form(action="/search" method="GET")
+            .input-group
+              input.form-control.search-input(type="search" placeholder="Search news..." name="q")
+              .input-group-append
+                button.btn.search-button(type="submit")
+                  i.fas.fa-search

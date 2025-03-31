@@ -1,0 +1,68 @@
+footer.py-4.footer-dark
+  .container
+    .row
+      .col-md-4.mb-3
+        h5.font-weight-bold About Us
+        p EarthOdyssey is your trusted source for the latest breaking news, in-depth analysis, and comprehensive coverage across politics, business, technology, sports, and more.
+        .mt-3
+          a.mr-3.social-icon(href="#")
+            i.fab.fa-facebook-f
+          a.mr-3.social-icon(href="#")
+            i.fab.fa-twitter
+          a.mr-3.social-icon(href="#")
+            i.fab.fa-instagram
+          a.social-icon(href="#")
+            i.fab.fa-youtube
+      
+      .col-md-2.mb-3
+        h5.font-weight-bold.section-title Categories
+        ul.list-unstyled.mt-3
+          li.mb-2
+            a.footer-link(href="/politics") Politics
+          li.mb-2
+            a.footer-link(href="/business") Business
+          li.mb-2
+            a.footer-link(href="/technology") Technology
+          li.mb-2
+            a.footer-link(href="/sports") Sports
+          li.mb-2
+            a.footer-link(href="/entertainment") Entertainment
+      
+      .col-md-2.mb-3
+        h5.font-weight-bold.section-title More Links
+        ul.list-unstyled.mt-3
+          li.mb-2
+            a.footer-link(href="/science") Science
+          li.mb-2
+            a.footer-link(href="/health") Health
+          li.mb-2
+            a.footer-link(href="/opinion") Opinion
+          li.mb-2
+            a.footer-link(href="/videos") Videos
+          li.mb-2
+            a.footer-link(href="/photos") Photos
+      
+      .col-md-4.mb-3
+        h5.font-weight-bold.section-title Stay Informed
+        p.mt-3 Get the latest news and exclusive stories delivered directly to your inbox
+        form(action="/subscribe" method="POST")
+          .input-group
+            input.form-control.footer-input(type="email" placeholder="Your email address" required)
+            .input-group-append
+              button.btn.btn-natgeo(type="submit") 
+                i.fas.fa-paper-plane.mr-2
+                | Subscribe
+    
+    hr.my-4.footer-divider
+    
+    .row
+      .col-md-6
+        p &copy; 2023 EarthOdyssey. All Rights Reserved.
+      .col-md-6.text-md-right
+        ul.list-inline.mb-0
+          li.list-inline-item
+            a.footer-bottom-link(href="/terms") Terms of Use
+          li.list-inline-item
+            a.footer-bottom-link(href="/privacy") Privacy Policy
+          li.list-inline-item
+            a.footer-bottom-link(href="/contact") Contact Us
